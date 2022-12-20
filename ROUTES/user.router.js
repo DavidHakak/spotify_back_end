@@ -1,17 +1,25 @@
-const express = require('express');
-
+const express = require("express");
+const userService = require("../BL/user.service");
 const router = express.Router();
+const auth = require('../auth');
 
-router.get('/', (req, res) => {
-    res.send({ name: "noshe", age: "22" })
-})
+router.post("/register", async (req, res) => {
+   try {
+      const newUser = await userService.register(req.body);
+      res.send(newUser);
+   } catch (error) {
+      console.log("error", error);
+   }
+});
 
-router.get('/:id', (req, res) => {
-    res.send(req.params.id)
-})
+router.post("/login", async (req, res) => {
+   try {
+      const user = await userService.login(req.body);
+      res.send(user); 
+   } catch (error) {
+      console.log("error", error);
+   };
+});
 
-router.post('/', (req, res) => {
-})
 
-
-module.exports = router
+module.exports = router;
